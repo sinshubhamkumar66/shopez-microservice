@@ -1,0 +1,23 @@
+server:
+  port: 8089
+
+jwt:
+  secret: my-super-secret-key-that-is-long-enough-to-be-secure
+  expiration: 3600000 # 1 hour
+
+spring:
+  application:
+    name: AUTH-SERVICE
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/shopezMicroservice
+    username: root
+    password: Shubham@123k
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect

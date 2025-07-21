@@ -1,0 +1,40 @@
+server:
+  port: 8083
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: notification-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring:
+          deserializer:
+            value:
+              delegate:
+                class: org.springframework.kafka.support.serializer.JsonDeserializer
+          json:
+            trusted:
+              packages: com.shopez.NotificationService.dto
+            value:
+              default:
+                type: com.shopez.NotificationService.dto.EmailNotification
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: singhshubhamkumar66@gmail.com
+    password: gaurkwlrwsomqnvf  # App password (not your Gmail password)
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+        debug: true  # Optional for development
+
+logging:
+  level:
+    org.springframework.kafka: INFO
+    com.shopez: DEBUG
