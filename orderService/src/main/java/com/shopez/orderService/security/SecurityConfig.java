@@ -2,6 +2,7 @@ package com.shopez.orderService.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -19,13 +20,19 @@ public class SecurityConfig {
     public SecurityConfig(JwtFilter jwtFilter) {
         this.jwtFilter = jwtFilter;
     }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/orders/public/**").permitAll()
+
+                        // Restrict PUT, DELETE, PATCH to ADMIN only
+                        .requestMatchers(HttpMethod.PUT, "/orders/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/orders/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/orders/**").hasRole("ADMIN")
+
+                        // Allow authenticated users to access other endpoints (GET, POST, etc.)
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -33,6 +40,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 
     @Bean
     public AuthenticationManager authManager(AuthenticationConfiguration config) throws Exception {
