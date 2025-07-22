@@ -17,7 +17,7 @@ public class OrderProducer {
     }
     public void sendOrderNotification(String userEmail, Order order) throws JsonProcessingException {
 
-        StringBuilder body = new StringBuilder("Thank you! Your order has been placed successfully.\n\nItems:\n");
+        StringBuilder body = new StringBuilder("Thank you! Your order has been successfully in cart.\n\nItems:\n");
 
         for (OrderItem item : order.getOrderItems()) {
             body.append("- ")
@@ -29,7 +29,7 @@ public class OrderProducer {
 
         EmailNotification notification = new EmailNotification(
                 userEmail,
-                "Order Confirmation - ID: " + order.getId(),
+                "Order Confirmation to cart",
                 body.toString()
         );
         kafkaTemplate.send("order_notification",notification);

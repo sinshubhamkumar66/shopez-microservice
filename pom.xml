@@ -21,7 +21,7 @@
         <module>authService</module>
         <module>productService</module>
         <module>orderService</module>
-<!--        <module>payment-service</module>-->
+        <module>PaymentService</module>
 <!--        <module>inventory-service</module>-->
         <module>NotificationService</module>
     </modules>

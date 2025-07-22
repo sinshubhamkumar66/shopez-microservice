@@ -21,8 +21,10 @@ public class Order {
     private Long id;
 
     private String userName;
+    private Double amount;
     @Enumerated(EnumType.STRING)
-    private Status status; // PENDING, SHIPPED, DELIVERED
+    private Status status;
+    // PENDING, SHIPPED, DELIVERED
     private LocalDateTime orderDate;
 
     @JsonManagedReference

@@ -3,6 +3,7 @@ package com.shopez.orderService.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.shopez.orderService.entity.Order;
 import com.shopez.orderService.entity.Status;
+import com.shopez.orderService.payload.OrderPaymentResponse;
 import com.shopez.orderService.payload.PlaceOrderRequest;
 import com.shopez.orderService.security.JwtUtil;
 import com.shopez.orderService.service.OrderService;
@@ -29,12 +30,12 @@ public class OrderController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    public ResponseEntity<Order> placeOrder(@RequestHeader("Authorization") String authHeader,
-                                            @RequestBody PlaceOrderRequest request) throws JsonProcessingException {
+    public ResponseEntity<OrderPaymentResponse> placeOrder(@RequestHeader("Authorization") String authHeader,
+                                                           @RequestBody PlaceOrderRequest request) throws JsonProcessingException {
         String token = authHeader.replace("Bearer ", "");
         String userName = jwtUtil.extractUsername(token); // returns "shubham"
 
-        Order order = orderService.placeOrder(request, userName);
+        OrderPaymentResponse order = orderService.placeOrder(request, userName);
         return ResponseEntity.ok(order);
     }
 
