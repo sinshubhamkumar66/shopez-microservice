@@ -1,0 +1,13 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: SERVICE-REGISTRY  # ✅ spelling corrected
+
+eureka:
+  instance:
+    hostname: localhost     # ✅ properly nested
+  client:
+    register-with-eureka: false
+    fetch-registry: false   # ✅ spelling corrected (was `fatch`)

@@ -15,8 +15,8 @@
 
     <!-- ✅ All modules -->
     <modules>
-<!--        <module>discovery-server</module>-->
-<!--        <module>config-server</module>-->
+        <module>discoveryService</module>
+        <module>configService</module>
 <!--        <module>api-gateway</module>-->
         <module>authService</module>
         <module>productService</module>
