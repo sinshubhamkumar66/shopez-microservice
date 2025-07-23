@@ -64,6 +64,15 @@
         </processorPath>
         <module name="authService" />
       </profile>
+      <profile name="Annotation profile for apiGateway" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
+        <module name="apiGateway" />
+      </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
@@ -72,6 +81,7 @@
       <module name="OrdeService" options="-parameters" />
       <module name="PaymentService" options="-parameters" />
       <module name="ProductService" options="-parameters" />
+      <module name="apiGateway" options="-parameters" />
       <module name="authService" options="-parameters" />
       <module name="configService" options="-parameters" />
       <module name="discoveryService" options="-parameters" />

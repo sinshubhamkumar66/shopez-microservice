@@ -17,7 +17,7 @@
     <modules>
         <module>discoveryService</module>
         <module>configService</module>
-<!--        <module>api-gateway</module>-->
+        <module>apiGateway</module>
         <module>authService</module>
         <module>productService</module>
         <module>orderService</module>
