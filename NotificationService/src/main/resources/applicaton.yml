@@ -1,5 +1,5 @@
 server:
-  port: 8084
+  port: 8085
 
   kafka:
     bootstrap-servers: localhost:9092
@@ -38,3 +38,16 @@ logging:
   level:
     org.springframework.kafka: INFO
     com.shopez: DEBUG
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+

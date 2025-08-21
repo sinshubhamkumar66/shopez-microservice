@@ -1,5 +1,5 @@
 server:
-  port: 9091
+  port: 8086
 
 spring:
   application:
@@ -49,3 +49,10 @@ management:
     web:
       exposure:
         include: "*"
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      prometheus:
+        enabled: true

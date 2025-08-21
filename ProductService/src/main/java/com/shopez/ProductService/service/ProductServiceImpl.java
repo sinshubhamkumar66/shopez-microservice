@@ -4,7 +4,6 @@ import com.shopez.ProductService.dto.ProductDto;
 import com.shopez.ProductService.entity.Products;
 import com.shopez.ProductService.globalException.ProductNotFound;
 import com.shopez.ProductService.repository.ProductRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
