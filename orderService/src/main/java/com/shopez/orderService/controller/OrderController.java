@@ -3,12 +3,15 @@ package com.shopez.orderService.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.shopez.orderService.entity.Order;
 import com.shopez.orderService.entity.Status;
+import com.shopez.orderService.payload.ApiResoponse;
 import com.shopez.orderService.payload.OrderPaymentResponse;
 import com.shopez.orderService.payload.PlaceOrderRequest;
 import com.shopez.orderService.security.JwtUtil;
 import com.shopez.orderService.service.OrderService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +33,7 @@ public class OrderController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @CircuitBreaker(name = "verifyProduct", fallbackMethod = "verifyProductFallBack")
     public ResponseEntity<OrderPaymentResponse> placeOrder(@RequestHeader("Authorization") String authHeader,
                                                            @RequestBody PlaceOrderRequest request) throws JsonProcessingException {
         String token = authHeader.replace("Bearer ", "");
@@ -37,6 +41,18 @@ public class OrderController {
 
         OrderPaymentResponse order = orderService.placeOrder(request, userName);
         return ResponseEntity.ok(order);
+    }
+
+    public ResponseEntity<ApiResoponse> verifyProductFallBack(String authHeader,
+                                                                      PlaceOrderRequest request,
+                                                                      Throwable ex) {
+        ApiResoponse fallbackResponse = ApiResoponse.builder()
+                .status(HttpStatus.SERVICE_UNAVAILABLE)
+                .message("Product Service is currently unavailable. Please try again later.")
+                .success(false)
+                .build();
+
+        return new ResponseEntity<>(fallbackResponse, HttpStatus.SERVICE_UNAVAILABLE);
     }
 
 

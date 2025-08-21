@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.0
@@ -19,3 +20,61 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: shopezMicroservice   # Optional, since DB already exists
+    ports:
+      - "3306:3306"
+    networks:
+      - monitor-net
+
+  product-service:
+      build: ./ProductService
+      ports:
+        - "8083:8083"
+      environment:
+        SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/shopezMicroservice
+        SPRING_DATASOURCE_USERNAME: root
+        SPRING_DATASOURCE_PASSWORD: Shubham@123k
+      depends_on:
+        - mysql
+      networks:
+        - monitor-net
+
+  order-service:
+      build: ./orderService
+      ports:
+        - "8082:8082"
+      environment:
+        SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/shopezMicroservice
+        SPRING_DATASOURCE_USERNAME: root
+        SPRING_DATASOURCE_PASSWORD: root
+      depends_on:
+        - mysql
+      networks:
+        - monitor-net
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - monitor-net
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - monitor-net
+
+networks:
+  monitor-net:

@@ -17,7 +17,7 @@ public class OrderProducer {
     }
     public void sendOrderNotification(String userEmail, Order order) throws JsonProcessingException {
 
-        StringBuilder body = new StringBuilder("Thank you! Your order has been successfully in cart.\n\nItems:\n");
+        StringBuilder body = new StringBuilder("Thank you! Your order has been successfully in placed.\n\nItems:\n");
 
         for (OrderItem item : order.getOrderItems()) {
             body.append("- ")

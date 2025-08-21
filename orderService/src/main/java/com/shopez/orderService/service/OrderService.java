@@ -10,7 +10,9 @@ import com.shopez.orderService.globalException.OrderNotFound;
 import com.shopez.orderService.kafkaProducer.OrderProducer;
 import com.shopez.orderService.payload.*;
 import com.shopez.orderService.repository.OrderRepository;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
